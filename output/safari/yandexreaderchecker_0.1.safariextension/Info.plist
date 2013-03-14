@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>Author</key>
-	<string>KangoExtensions</string>
+	<string>Goder</string>
 	<key>CFBundleDisplayName</key>
 	<string>Yandex Reader Checker</string>
 	<key>CFBundleIdentifier</key>
@@ -11,9 +11,9 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.9</string>
+	<string>0.1</string>
 	<key>CFBundleVersion</key>
-	<string>0.9</string>
+	<string>0.1</string>
 	<key>Chrome</key>
 	<dict>
 		<key>Database Quota</key>
@@ -50,7 +50,7 @@
 		</array>
 	</dict>
 	<key>Description</key>
-	<string>Extension description</string>
+	<string>Позволяет узнать количество непрочитанных сообщений в сервисе Яндекс.Подписки (rss-агрегатор).</string>
 	<key>ExtensionInfoDictionaryVersion</key>
 	<string>1.0</string>
 	<key>Permissions</key>
@@ -66,6 +66,6 @@
 	<key>Update Manifest URL</key>
 	<string></string>
 	<key>Website</key>
-	<string>http://kangoextensions.com/</string>
+	<string>https://github.com/Microfed/yandex-reader-checker</string>
 </dict>
 </plist>

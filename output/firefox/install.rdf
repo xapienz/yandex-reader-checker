@@ -2,7 +2,7 @@
     <Description about="urn:mozilla:install-manifest">
         <em:id>{F8AEBF57-832A-4AB0-AE4B-582BEDA8D825}</em:id>
         <em:name>Yandex Reader Checker</em:name>
-        <em:version>0.9</em:version>
+        <em:version>0.1</em:version>
         <em:targetApplication>
             <Description>
                 <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
@@ -10,9 +10,9 @@
                 <em:maxVersion>20.*</em:maxVersion>
             </Description>
         </em:targetApplication>
-		<em:description>Extension description</em:description>
-        <em:creator>KangoExtensions</em:creator>
-		<em:homepageURL>http://kangoextensions.com/</em:homepageURL>
+		<em:description>Позволяет узнать количество непрочитанных сообщений в сервисе Яндекс.Подписки (rss-агрегатор).</em:description>
+        <em:creator>Goder</em:creator>
+		<em:homepageURL>https://github.com/Microfed/yandex-reader-checker</em:homepageURL>
 		
 		<em:iconURL>chrome://YandexnReadernChecker_kango/content/icons/icon32.png</em:iconURL>
 		
