@@ -74,6 +74,7 @@
 
                         if (token) {
                             kango.storage.setItem(TOKEN_NAME, token);
+                            settings.oauth_token = token;
                         }
                     }
                 };
