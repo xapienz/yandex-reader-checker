@@ -1,0 +1,16 @@
+{
+  "content_scripts": [], 
+  "description": "Позволяет узнать количество непрочитанных сообщений в сервисе Яндекс.Подписки (rss-агрегатор).", 
+  "creator": "Goder", 
+  "background_scripts": [
+    "main.js"
+  ], 
+  "homepage_url": "https://github.com/microfed/yandex-reader/", 
+  "version": "0.1", 
+  "browser_button": {
+    "caption": "Yandex Reader Checker", 
+    "icon": "icons/button.png", 
+    "tooltipText": "Yandex Reader Checker"
+  }, 
+  "name": "Yandex Reader Checker"
+}

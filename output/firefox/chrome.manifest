@@ -1,0 +1,3 @@
+content YandexnReadernChecker_kango chrome/content/
+overlay chrome://browser/content/browser.xul chrome://YandexnReadernChecker_kango/content/content.xul
+resource YandexnReadernChecker_kango chrome/content/
