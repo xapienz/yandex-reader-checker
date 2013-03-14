@@ -75,9 +75,13 @@
                         if (token) {
                             kango.storage.setItem(TOKEN_NAME, token);
                             settings.oauth_token = token;
+
+                            mainLoop = setInterval(function () {self.refresh()}, self._refreshTimeout);
                         }
                     }
                 };
+
+            clearInterval(mainLoop);
 
             kango.browser.tabs.create({url: YANDEX_OAUTH_AUTH_SERVICE});
 
