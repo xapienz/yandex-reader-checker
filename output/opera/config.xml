@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><widget id="http://kangoextensions.com/extensions/yandexreaderchecker/" version="0.2" xmlns="http://www.w3.org/ns/widgets">
+<?xml version="1.0" ?><widget id="http://kangoextensions.com/extensions/yandexreaderchecker/" version="0.3" xmlns="http://www.w3.org/ns/widgets">
 	<name>Yandex Reader Checker</name>
 	<description>Позволяет узнать количество непрочитанных сообщений в сервисе Яндекс.Подписки (rss-агрегатор).</description>
 	<author href="https://github.com/Microfed/yandex-reader-checker">Goder</author>
