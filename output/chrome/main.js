@@ -115,7 +115,7 @@
                 kango.xhr.send(details, function (data) {
                     if (data.status == 200 && data.response != null) {
                         var count = 0,
-                            matches = data.response.match(/(\d)<\/unread>/);  // Old IE versions doensn't support getElementsByTagNameNS, so we using RegExp
+                            matches = data.response.match(/(\d)*<\/unread>/);  // Old IE versions doensn't support getElementsByTagNameNS, so we using RegExp
 
                         if (matches != null && matches.length > 0) {
                             count = matches[1];
