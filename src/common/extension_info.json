@@ -6,7 +6,7 @@
     "main.js"
   ], 
   "homepage_url": "https://github.com/Microfed/yandex-reader-checker", 
-  "version": "0.3", 
+  "version": "0.4", 
   "browser_button": {
     "caption": "Yandex Reader Checker", 
     "icon": "icons/button.png", 

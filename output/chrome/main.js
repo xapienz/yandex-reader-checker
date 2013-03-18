@@ -1,19 +1,19 @@
 ﻿(function () {
     "use strict";
 
-    var YANDEX_READER_URL = 'http://mail.yandex.ru/my/#lenta/group/all',
-        YANDEX_STAT_UNREAD_URL = 'https://api-lenta.yandex.ru/stat/unread',
-        EXTENSION_ID = '695982686e1043d8afe881e729503e33',
-        YANDEX_OAUTH_AUTH_SERVICE = 'https://oauth.yandex.ru/authorize?response_type=token&client_id=' + EXTENSION_ID,
-        ICON_16x16 = 'icons/button.png',
-        ICON_16x16_GRAY = 'icons/button_gray.png',
-        TOKEN_NAME = 'token',
+    var YANDEX_READER_URL            = 'http://mail.yandex.ru/my/#lenta/group/all',
+        YANDEX_STAT_UNREAD_URL       = 'https://api-lenta.yandex.ru/stat/unread',
+        EXTENSION_ID                 = '695982686e1043d8afe881e729503e33',
+        YANDEX_OAUTH_AUTH_SERVICE    = 'https://oauth.yandex.ru/authorize?response_type=token&client_id=' + EXTENSION_ID,
+        ICON_16x16                   = 'icons/button.png',
+        ICON_16x16_GRAY              = 'icons/button_gray.png',
+        TOKEN_NAME                   = 'token',
         TURN_OFFLINE_CONFIRM_MESSAGE = "Выключить расширение Yandex Reader Checker?",
 
         settings = {
-            refresh_timeout: 60000, // 60 sec
-            max_count: 999,
-            oauth_token:     kango.storage.getItem(TOKEN_NAME)
+            refresh_timeout:  60000, // 60 sec
+            max_count:        999,
+            oauth_token:      kango.storage.getItem(TOKEN_NAME)
         },
 
         mainLoop,
@@ -24,7 +24,28 @@
             self.refresh();
 
             kango.ui.browserButton.addEventListener(kango.ui.browserButton.event.COMMAND, function () {
+				var currentTabId,
+
+					//  refresh state after closing the yandex-tab
+					tabRemovedHandler = function (e) {
+						if (e.tabId === currentTabId) {
+							kango.browser.removeEventListener(kango.browser.event.TAB_REMOVED, tabRemovedHandler);
+
+							self.refresh();
+						}
+					};
+
                 kango.browser.tabs.create({url: YANDEX_READER_URL});
+				kango.browser.tabs.getAll(function (tabs) {
+					tabs.forEach(function (tab) {
+						if (tab.getUrl() === YANDEX_READER_URL) {
+							currentTabId = tab._tab.id;
+						}
+					});
+				});
+
+				kango.browser.addEventListener(kango.browser.event.TAB_REMOVED, tabRemovedHandler);
+
                 self.refresh();
             });
 
@@ -35,8 +56,8 @@
 
     YandexReaderChecker.prototype = {
 
-        _refreshTimeout: settings.refresh_timeout,
         _feedUrl:        YANDEX_STAT_UNREAD_URL,
+        _refreshTimeout: settings.refresh_timeout,
 
         _setOffline: function () {
             kango.ui.browserButton.setIcon(ICON_16x16_GRAY); // grey icon
@@ -52,11 +73,9 @@
         },
 
         _getOAuthToken: function () {
-            var yandexTabID = null,
-                self = this,
-                token,
-                response,
-                checkURL = function (e) {
+			var self        = this,
+				yandexTabID = null,
+                checkURL    = function (e) {
                     if (e.target._tab.id === yandexTabID && e.url !== YANDEX_OAUTH_AUTH_SERVICE) {
                         response = e.url.match(/.*#access_token=(.*)&token_type/);
 
@@ -79,7 +98,9 @@
                             mainLoop = setInterval(function () {self.refresh()}, self._refreshTimeout);
                         }
                     }
-                };
+                },
+                token,
+                response;
 
             clearInterval(mainLoop);
 
@@ -90,7 +111,7 @@
                     if (tab.getUrl() === YANDEX_OAUTH_AUTH_SERVICE) {
                         yandexTabID = tab._tab.id;
                     }
-                })
+                });
             });
 
             kango.browser.addEventListener(kango.browser.event.DOCUMENT_COMPLETE, checkURL);
@@ -107,15 +128,15 @@
                     async:       true,
                     method:      'GET',
                     contentType: 'application/x-yandex-lenta+xml',
-                    headers:     {
+                    headers: {
                         authorization: 'OAuth ' + settings.oauth_token
                     }
                 };
 
                 kango.xhr.send(details, function (data) {
                     if (data.status == 200 && data.response != null) {
-                        var count = 0,
-                            matches = data.response.match(/(\d)*<\/unread>/);  // Old IE versions doensn't support getElementsByTagNameNS, so we using RegExp
+                        var count   = 0,
+                            matches = data.response.match(/(\d*)<\/unread>/);  // Old IE versions doensn't support getElementsByTagNameNS, so we using RegExp
 
                         if (matches != null && matches.length > 0) {
                             count = matches[1];
