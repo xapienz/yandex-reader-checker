@@ -3,8 +3,9 @@
 
     var YANDEX_READER_URL            = 'http://mail.yandex.ru/my/#lenta/group/all',
         YANDEX_STAT_UNREAD_URL       = 'https://api-lenta.yandex.ru/stat/unread',
-        EXTENSION_ID                 = '695982686e1043d8afe881e729503e33',
+        EXTENSION_ID                 = 'a598987dd5f44d8384e19d273be54593',
         YANDEX_OAUTH_AUTH_SERVICE    = 'https://oauth.yandex.ru/authorize?response_type=token&client_id=' + EXTENSION_ID,
+        YANDEX_OAUTH_OK              = 'https://oauth.yandex.ru/ok',
         ICON_16x16                   = 'icons/button.png',
         ICON_16x16_GRAY              = 'icons/button_gray.png',
         TOKEN_NAME                   = 'token',
@@ -24,28 +25,28 @@
             self.refresh();
 
             kango.ui.browserButton.addEventListener(kango.ui.browserButton.event.COMMAND, function () {
-				var currentTabId,
+				if (settings.oauth_token) {
+                    var currentTabId,
+                        //  refresh state after closing the yandex-tab
+                        tabRemovedHandler = function (e) {
+                            if (e.tabId === currentTabId) {
+                                kango.browser.removeEventListener(kango.browser.event.TAB_REMOVED, tabRemovedHandler);
 
-					//  refresh state after closing the yandex-tab
-					tabRemovedHandler = function (e) {
-						if (e.tabId === currentTabId) {
-							kango.browser.removeEventListener(kango.browser.event.TAB_REMOVED, tabRemovedHandler);
+                                self.refresh();
+                            }
+                        };
 
-							self.refresh();
-						}
-					};
+                    kango.browser.tabs.create({url: YANDEX_READER_URL});
+                    kango.browser.tabs.getAll(function (tabs) {
+                        tabs.forEach(function (tab) {
+                            if (tab.getUrl() === YANDEX_READER_URL) {
+                                currentTabId = tab._tab.id;
+                            }
+                        });
+                    });
 
-                kango.browser.tabs.create({url: YANDEX_READER_URL});
-				kango.browser.tabs.getAll(function (tabs) {
-					tabs.forEach(function (tab) {
-						if (tab.getUrl() === YANDEX_READER_URL) {
-							currentTabId = tab._tab.id;
-						}
-					});
-				});
-
-				kango.browser.addEventListener(kango.browser.event.TAB_REMOVED, tabRemovedHandler);
-
+                    kango.browser.addEventListener(kango.browser.event.TAB_REMOVED, tabRemovedHandler);
+                }
                 self.refresh();
             });
 
